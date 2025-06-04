@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard Mockup</title>
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      padding: 16px;
+    }
+
+    /* Container */
+    .dashboard-container {
+      display: grid;
+      grid-template-rows:
+        auto
+        /* Header */
+        auto
+        /* Quick Access */
+        auto
+        /* Reports Row */
+        auto
+        /* First Row (4 columns) */
+        auto
+        /* Second Row (2 columns) */
+        auto;
+      /* Bottom Row (Tables) */
+      grid-row-gap: 16px;
+    }
+
+    /* 1) Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header .left,
+    .header .right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .header select,
+    .header button {
+      padding: 6px 10px;
+      font-size: 14px;
+    }
+
+    /* 2) Quick Access (Full Width) */
+    .quick-access {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .quick-card {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    .quick-card h4 {
+      font-size: 15px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 4px;
+    }
+
+    .quick-card table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .quick-card th,
+    .quick-card td {
+      border: 1px solid #ddd;
+      padding: 4px 6px;
+      text-align: left;
+    }
+
+    .quick-card th {
+      background: #f0f0f0;
+      font-weight: normal;
+      font-size: 13px;
+    }
+
+    .quick-card tbody tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    /* 3) Reports Row (Driver + Vehicle Reports) */
+    .reports-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .report-card {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    .report-card h4 {
+      font-size: 15px;
+      margin-bottom: 8px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 4px;
+    }
+
+    .report-card ul {
+      list-style: none;
+      margin-top: 8px;
+    }
+
+    .report-card li {
+      margin: 4px 0;
+      font-size: 13px;
+    }
+
+    /* 4) First Row: 4 columns (Charts) */
+    .first-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .widget {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      min-height: 150px;
+      padding: 12px;
+    }
+
+    .widget h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    /* 5) Second Row: 2 columns, with nested areas */
+    .second-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .calendar-widget {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      min-height: 300px;
+      padding: 12px;
+    }
+
+    .right-side {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .chart-box {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      min-height: 140px;
+      padding: 12px;
+    }
+
+    /* 6) Bottom Row: Full-width tables */
+    .bottom-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .table-widget {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 12px;
+    }
+
+    .table-widget h3 {
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background: #f0f0f0;
+    }
+
+    /* Responsive: collapse columns on smaller screens */
+    @media (max-width: 1024px) {
+      .first-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .second-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .first-row {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-access {
+        grid-template-columns: 1fr;
+      }
+
+      .reports-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <!-- 1) Header -->
+    <div class="header">
+      <div class="left">
+        <label for="date-range">Date Range:</label>
+        <select id="date-range">
+          <option>Today</option>
+          <option>This Week</option>
+          <option>This Month</option>
+          <option>This Year</option>
+          <option>Custom</option>
+        </select>
+        <!-- <label for="filter">Filter:</label>
+        <select id="filter">
+          <option>All</option>
+          <option>Verified</option>
+          <option>Pending</option>
+        </select> -->
+      </div>
+      <div class="right">
+        <button>Quick Links</button>
+        <button>Settings</button>
+      </div>
+    </div>
+
+    <!-- 2) Quick Access (Full Width) -->
+    <div class="quick-access">
+      <!-- Pending Verifications -->
+      <div class="quick-card">
+        <h4>Pending Verifications</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Expenses</td>
+              <td>8</td>
+            </tr>
+            <tr>
+              <td>Payments</td>
+              <td>4</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Bookings w/o Driver/Vehicle -->
+      <div class="quick-card">
+        <h4>Unassigned Bookings</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>BK#1023</td>
+              <td>06/03/2025</td>
+            </tr>
+            <tr>
+              <td>BK#1025</td>
+              <td>06/04/2025</td>
+            </tr>
+            <tr>
+              <td>BK#1028</td>
+              <td>06/05/2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Recently Added Bookings -->
+      <div class="quick-card">
+        <h4>Recent Bookings</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>BK#1030</td>
+              <td>06/05/2025</td>
+            </tr>
+            <tr>
+              <td>BK#1029</td>
+              <td>06/05/2025</td>
+            </tr>
+            <tr>
+              <td>BK#1027</td>
+              <td>06/04/2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Upcoming Trips (Today/Tomorrow) -->
+      <div class="quick-card">
+        <h4>Upcoming Trips</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>BK#1032</td>
+              <td>10:00 AM</td>
+            </tr>
+            <tr>
+              <td>BK#1033</td>
+              <td>12:30 PM</td>
+            </tr>
+            <tr>
+              <td>BK#1034</td>
+              <td>03:45 PM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3) Reports Row (Driver + Vehicle Reports) -->
+    <div class="reports-row">
+      <div class="report-card">
+        <h4>(H) Top Drivers This Month</h4>
+        <ul>
+          <li>Rajesh Kumar – 25 trips</li>
+          <li>Sunil Verma – 22 trips</li>
+          <li>Anita Singh – 20 trips</li>
+        </ul>
+      </div>
+      <div class="report-card">
+        <h4>(I) Drivers on Leave (not IMP)</h4>
+        <ul>
+          <li>Vikas Patel</li>
+          <li>Rashmi Jain</li>
+        </ul>
+      </div>
+      <div class="report-card quick-card">
+        <h4>(J) vehicle documents renewal</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Vehicle</th>
+              <th>Doc</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>HR12AB1234</td>
+              <td>Permit</td>
+              <td>2 Nov 2025</td>
+            </tr>
+            <tr>
+              <td>HR12AB1234</td>
+              <td>Insurance</td>
+              <td>10 Nov 2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="report-card">
+        <h4>(K) Idle Vehicles</h4>
+        <ul>
+          <li>DL4EF9101 (Innova) – 10 days</li>
+          <li>MH02GH2345 (Crysta) – 7 days</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 4) First Row: Four columns -->
+    <div class="first-row">
+      <div class="widget">
+        <h3>(A) Booking Status Breakdown</h3>
+        <p style="text-align: center; margin-top: 40px;">[Pie/Donut Chart]</p>
+      </div>
+      <div class="widget">
+        <h3>(B) Enquiries vs Bookings History</h3>
+        <p style="text-align: center; margin-top: 40px;">[Bar Chart]</p>
+      </div>
+      <div class="widget">
+        <h3>(C) Financial Snapshot</h3>
+        <p style="text-align: center; margin-top: 40px;">[Pie/Donut Chart: Total / Received / Pending]</p>
+      </div>
+      <div class="widget">
+        <h3>(D) Bookings by Vehicle Type</h3>
+        <p style="text-align: center; margin-top: 40px;">[Bar Chart]</p>
+      </div>
+    </div>
+
+    <!-- 5) Second Row: Two columns -->
+    <div class="second-row">
+      <!-- 5.A Calendar Overview -->
+      <div class="calendar-widget">
+        <h3>(E) Booking Calendar Overview</h3>
+        <p style="text-align: center; margin-top: 80px;">[Calendar]</p>
+      </div>
+
+      <!-- 5.B & 5.C Stacked in right column -->
+      <div class="right-side">
+        <div class="chart-box">
+          <h3>(F1) Revenue vs Payments</h3>
+          <p style="text-align: center; margin-top: 40px;">[Line Chart]</p>
+        </div>
+        <div class="chart-box">
+          <h3>(F2) Unverified vs Verified Expenses</h3>
+          <p style="text-align: center; margin-top: 40px;">[Stacked Bar or Pie]</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6) Bottom Row: Tables (Full-width) -->
+    <div class="bottom-row">
+      <div class="table-widget">
+        <h3>(G1) Recent Expenses</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Expense ID</th>
+              <th>Date</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Driver</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>EXP#1234</td>
+              <td>06/01/2025</td>
+              <td>Fuel</td>
+              <td>₹2,000</td>
+              <td>Rajesh</td>
+              <td>Pending</td>
+            </tr>
+            <tr>
+              <td>EXP#1235</td>
+              <td>06/02/2025</td>
+              <td>Toll</td>
+              <td>₹500</td>
+              <td>Sunil</td>
+              <td>Verified</td>
+            </tr>
+            <!-- …more rows… -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-widget">
+        <h3>(G2) Recent Payments</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Payment ID</th>
+              <th>Date</th>
+              <th>Booking ID</th>
+              <th>Customer</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>PAY#7890</td>
+              <td>06/01/2025</td>
+              <td>BK#4567</td>
+              <td>Sharma</td>
+              <td>₹5,000</td>
+              <td>Verified</td>
+            </tr>
+            <tr>
+              <td>PAY#7891</td>
+              <td>06/02/2025</td>
+              <td>BK#4568</td>
+              <td>Gupta</td>
+              <td>₹3,500</td>
+              <td>Pending</td>
+            </tr>
+            <!-- …more rows… -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
